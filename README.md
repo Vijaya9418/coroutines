@@ -34,11 +34,22 @@ they are thread independent.
 for example :- If the coroutine is running in the main tread, we can use withcontext to switch the context of the coroutine to IO and then it will run in IO.
 
 //coroutine scope :- 
+
 It is a way to group jobs togehter coroutines into a similar category so that you can take action on many of them at once.
 There are three types of coroutine scope:-
+
 1. IO - Userd in network and local database Interaction.
 2. Main - Used in doing stuff in main thread, manily interaction with the UI.
 3. Default - It is used for heavy completion work.
+
+//Lifecycle scope:-
+
+The most commonly used scope is the lifecycle scope. It will cancel all the coroutines when the associated activity or fragment is destroyed. Which helps to prevent memory leak.
+
+//Global scope:-
+
+It is not bound to any particular lifecycle or context. It will continue to run even when the associated activity or fragment is destroyed.
+
 
 // are coroutines and threads equals?
 
@@ -61,6 +72,7 @@ It has more feature added to it , so we should always use completable job instea
 
 //job.complete:-
 It will complete the job and mark as complete.
+
 //job.complete Exceptionally:-
 It will complete the job exceptionally with a given exception.
 
