@@ -33,7 +33,14 @@ it will also launch the coroutine but it will switch the context of coroutine wi
 they are thread independent.
 for example :- If the coroutine is running in the main tread, we can use withcontext to switch the context of the coroutine to IO and then it will run in IO.
 
-// are coroutines are threads equals?
+//coroutine scope :- 
+It is a way to group jobs togehter coroutines into a similar category so that you can take action on many of them at once.
+There are three types of coroutine scope:-
+1. IO - Userd in network and local database Interaction.
+2. Main - Used in doing stuff in main thread, manily interaction with the UI.
+3. Default - It is used for heavy completion work.
+
+// are coroutines and threads equals?
 
 Coroutines are like thread but not threads.
 A thread is a path or direction that is taken when a program is being executed.
@@ -43,6 +50,21 @@ here is a way to explain how coroutine is different from threads:-
 Thread [ coroutine_1, coroutine_2, coroutine_3]
 coroutine_1.delay(1000) :- it will only delay that particular coroutine_1 by 1s inside a thread, rest coroutine_2 and coroutine_3 will continue to execute.
 Thread.sleep(1000):- It will delay the whole thread, which means all other coroutines inside that tread will go to sleep.
+
+//withTimeOutOrNull:-
+
+It will wait until the job time out which we have provided and if within this time out the jobs get completed otherwise it will return null.
+
+//completable job:-
+
+It has more feature added to it , so we should always use completable job instead a simple job.
+
+//job.complete:-
+It will complete the job and mark as complete.
+//job.complete Exceptionally:-
+It will complete the job exceptionally with a given exception.
+
+
 
 
 
