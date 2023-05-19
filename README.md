@@ -76,6 +76,40 @@ It will complete the job and mark as complete.
 //job.complete Exceptionally:-
 It will complete the job exceptionally with a given exception.
 
+Why we write(IO+job)
+Because if we want to cancel a particular job out of all the coroutines that is running inside IO, then we can simply do job.cancel, it will be independent of other coroutines.
+
+Ex:-
+val scope = CoroutineScope(IO).launch
+{
+//some code
+}
+scope.cancel
+
+This will cancel all the coroutines running inside IO
+
+
+
+val scope = CoroutineScope.launch(IO+Job).launch
+{
+//some code
+}
+Job.cancel
+This will only cancel that particular job.
+
+
+Runblocking:-
+
+Runblocking is similar to the coroutine scope but with special properties. It runs a new coroutine and blocks the current thread interruptible until its completion, mostly it is used in test cases.
+
+Async and await:-
+It is a function to define the coroutine , indicating that the function can be paused and resumed.
+
+Await:-
+It is the keyword used within the coroutine to pause the execution go a function until a specific asynchronous operations completed.
+
+
+
 
 
 
