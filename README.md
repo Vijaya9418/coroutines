@@ -26,6 +26,7 @@ It is designed to work with coroutine builders like launch or async and allows f
 import kotlinx.coroutines.*
 
 fun main() {
+
     val scope = CoroutineScope(Dispatchers.Default)
 
     scope.launch {
