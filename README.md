@@ -44,9 +44,11 @@ fun main() {
 }
 
 suspend fun fetchData(): String {
+
     delay(1000) // Simulating a delay of 1 second
 
     return "Data fetched successfully"
+    
 }
 
 
