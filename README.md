@@ -23,6 +23,36 @@ If corotuine_1 has to wait for a resource or some other module’s result, then 
 It is a function that can be paused or resumed at a later time, coroutines can be called only from a suspend function. We mark them suspend so that it can be called asynchronously and therefore runs in background thread.
 It is designed to work with coroutine builders like launch or async and allows for asynchronous programming in a sequential and more readable manner.
 
+
+**example with simple function**
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before fetching data")
+
+    val data = fetchData()
+
+    println("After fetching data: $data")
+}
+
+fun fetchData(): String {
+
+    Thread.sleep(1000) // Simulating a delay of 1 second
+
+    return "Data fetched successfully"
+}
+
+output:-
+Before fetching data
+After fetching data: Data fetched successfully
+
+
+When you run this code, it will execute synchronously, meaning that the execution of the main thread will be blocked for approximately 1 second during the Thread.sleep operation. As a result, the "After fetching data" line will be printed after the delay.
+
+**example with suspend function**
+
 import kotlinx.coroutines.*
 
 fun main() {
@@ -51,6 +81,11 @@ suspend fun fetchData(): String {
     return "Data fetched successfully"
     
 }
+
+output:- Before fetching data
+
+Using suspending functions and coroutines enables non-blocking execution, where other code can continue running while waiting for long-running or asynchronous operations to complete.
+
 
 
 
