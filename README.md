@@ -94,7 +94,41 @@ Using suspending functions and coroutines enables non-blocking execution, where 
 //launch:-
 
 It is a coroutine builder that construts the coroutines. 
+
 It launches the new coroutine without blocking the current thread and returns the reference to the coroutine as a job.
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    scope.launch {
+        println("Inside coroutine")
+        delay(1000)
+        println("Coroutine execution complete")
+    }
+
+    println("After coroutine launch")
+
+    // Wait for the coroutine to complete
+    Thread.sleep(2000)
+
+    // Clean up the scope
+    scope.cancel()
+}
+
+output:-
+Before coroutine
+
+After coroutine launch
+
+Inside coroutine
+
+Coroutine execution complete
+
 
 //withcontext:-
 
