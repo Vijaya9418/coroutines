@@ -136,6 +136,50 @@ it will also launch the coroutine but it will switch the context of coroutine wi
 they are thread independent.
 for example :- If the coroutine is running in the main tread, we can use withcontext to switch the context of the coroutine to IO and then it will run in IO.
 
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    scope.launch {
+        println("Inside coroutine")
+
+        withContext(Dispatchers.IO) {
+            println("Running in IO context")
+            delay(1000)
+        }
+
+        println("Back to default context")
+        delay(1000)
+
+        println("Coroutine execution complete")
+    }
+
+    println("After coroutine launch")
+
+    // Wait for the coroutine to complete
+    Thread.sleep(3000)
+
+    // Clean up the scope
+    scope.cancel()
+}
+
+output:- Before coroutine
+
+After coroutine launch
+
+Inside coroutine
+
+Running in IO context
+
+Back to default context
+
+Coroutine execution complete
+
+
 //coroutine scope :- 
 
 It is a way to group jobs togehter coroutines into a similar category so that you can take action on many of them at once.
