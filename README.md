@@ -46,6 +46,7 @@ fun fetchData(): String {
 
 output:-
 Before fetching data
+
 After fetching data: Data fetched successfully
 
 
@@ -82,7 +83,8 @@ suspend fun fetchData(): String {
     
 }
 
-output:- Before fetching data
+output:- 
+Before fetching data
 
 Using suspending functions and coroutines enables non-blocking execution, where other code can continue running while waiting for long-running or asynchronous operations to complete.
 
