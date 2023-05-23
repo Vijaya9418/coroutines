@@ -180,9 +180,12 @@ Back to default context
 Coroutine execution complete
 
 
+
+
 //coroutine scope :- 
 
 It is a way to group jobs togehter coroutines into a similar category so that you can take action on many of them at once.
+it ensures proper cancellation and cleanup of resources associated with the coroutines.
 There are three types of coroutine scope:-
 
 1. IO - Userd in network and local database Interaction.
