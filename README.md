@@ -245,13 +245,7 @@ the program will exit immediately after launching the coroutine. This will resul
 
 There are manily twotypes of coroutine scopes:-
 1. Global scope
-2. Local scope
-
-There are three types of dispatchers:-
-
-1. IO - Userd in network and local database Interaction.
-2. Main - Used in doing stuff in main thread, manily interaction with the UI.
-3. Default - It is used for heavy completion work.
+2. Lifecycle scope
 
 //Lifecycle scope:-
 
@@ -261,6 +255,40 @@ The most commonly used scope is the lifecycle scope. It will cancel all the coro
 
 It is not bound to any particular lifecycle or context. It will continue to run even when the associated activity or fragment is destroyed.
 
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+    GlobalScope.launch {
+        println("Inside global scope coroutine")
+        delay(1000)
+        println("Coroutine execution complete")
+    }
+
+    println("After coroutine launch")
+
+    // Rest of the program
+
+    Thread.sleep(2000) // Wait for the coroutine to complete
+
+    // No need to cancel the GlobalScope, as it lives for the entire application lifecycle
+}
+
+output:-
+Before coroutine<br />
+After coroutine launch<br />
+Inside global scope coroutine<br />
+Coroutine execution complete<br />
+
+The GlobalScope does not require explicit cancellation, as it lives for the entire application lifecycle. However, it's important to note that coroutines launched within GlobalScope are not automatically cancelled when the surrounding code completes execution. It's the responsibility of the programmer to ensure proper cancellation and cleanup of resources associated with the coroutines launched in the GlobalScope.
+
+
+There are three types of dispatchers:-
+
+1. IO - Userd in network and local database Interaction.
+2. Main - Used in doing stuff in main thread, manily interaction with the UI.
+3. Default - It is used for heavy completion work.
 
 // are coroutines and threads equals?
 
