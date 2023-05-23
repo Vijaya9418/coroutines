@@ -188,7 +188,66 @@ It is a way to group jobs togehter coroutines into a similar category so that yo
 it ensures proper cancellation and cleanup of resources associated with the coroutines.
 The scope defines the context in which the coroutines will run.
 
-There are three types of coroutine scope:-
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    scope.launch {
+        println("Inside coroutine")
+        delay(1000)
+        println("Coroutine execution complete")
+    }
+
+    println("After coroutine launch")
+
+    // Wait for the coroutine to complete
+    Thread.sleep(2000)
+
+    // Clean up the scope
+    scope.cancel()
+}
+
+output:-
+Before coroutine<br />
+After coroutine launch<br />
+Inside coroutine<br />
+Coroutine execution complete<br />
+
+what will happen if we will not do thread.sleep and scope.cancel() in above example:-
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    scope.launch {
+        println("Inside coroutine")
+        delay(1000)
+        println("Coroutine execution complete")
+    }
+
+    println("After coroutine launch")
+}
+
+output:-
+Before coroutine<br />
+After coroutine launch<br />
+Inside coroutine<br />
+
+the program will exit immediately after launching the coroutine. This will result in the coroutine not having enough time to complete its execution.
+
+There are manily twotypes of coroutine scopes:-
+1. Global scope
+2. Local scope
+
+There are three types of dispatchers:-
 
 1. IO - Userd in network and local database Interaction.
 2. Main - Used in doing stuff in main thread, manily interaction with the UI.
