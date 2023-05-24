@@ -405,6 +405,59 @@ Thread [ coroutine_1, coroutine_2, coroutine_3]
 coroutine_1.delay(1000) :- it will only delay that particular coroutine_1 by 1s inside a thread, rest coroutine_2 and coroutine_3 will continue to execute.
 Thread.sleep(1000):- It will delay the whole thread, which means all other coroutines inside that tread will go to sleep.
 
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutines")
+
+    GlobalScope.launch {
+        println("Coroutine 1: Start")
+        delay(1000)
+        println("Coroutine 1: Delay complete")
+    }
+
+    GlobalScope.launch {
+        println("Coroutine 2: Start")
+        println("Coroutine 2: Executing some work")
+        println("Coroutine 2: Work complete")
+    }
+
+    GlobalScope.launch {
+        println("Coroutine 3: Start")
+        println("Coroutine 3: Executing some work")
+        println("Coroutine 3: Work complete")
+    }
+
+    println("After coroutines launch")
+
+    Thread.sleep(2000) // Delay the main thread
+
+    println("After thread sleep")
+
+    // Cleanup
+    // No need to cancel the GlobalScope as coroutines launched in the GlobalScope
+    // are not automatically cancelled when the surrounding code completes execution.
+    
+}
+
+output:-
+
+Before coroutines
+After coroutines launch
+Coroutine 2: Start
+Coroutine 3: Start
+Coroutine 2: Executing some work
+Coroutine 3: Executing some work
+Coroutine 2: Work complete
+Coroutine 3: Work complete
+Coroutine 1: Start
+Coroutine 1: Delay complete
+After thread sleep
+
+
+
 //withTimeOutOrNull:-
 
 It will wait until the job time out which we have provided and if within this time out the jobs get completed otherwise it will return null.
