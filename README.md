@@ -247,9 +247,6 @@ There are manily twotypes of coroutine scopes:-
 1. Global scope
 2. Lifecycle scope
 
-//Lifecycle scope:-
-
-The most commonly used scope is the lifecycle scope. It will cancel all the coroutines when the associated activity or fragment is destroyed. Which helps to prevent memory leak.
 
 //Global scope:-
 
@@ -282,6 +279,61 @@ Inside global scope coroutine<br />
 Coroutine execution complete<br />
 
 The GlobalScope does not require explicit cancellation, as it lives for the entire application lifecycle. However, it's important to note that coroutines launched within GlobalScope are not automatically cancelled when the surrounding code completes execution. It's the responsibility of the programmer to ensure proper cancellation and cleanup of resources associated with the coroutines launched in the GlobalScope.
+
+//Lifecycle scope:-
+
+The most commonly used scope is the lifecycle scope that is tied to a specific lifecycle or context, such as an activity, fragment, or a block of code.. It will cancel all the coroutines when the associated activity or fragment is destroyed. Which helps to prevent memory leak. It allows for proper management and cancellation of coroutines based on the lifecycle events.
+
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
+
+class ExampleClass : CoroutineScope {
+
+    private val job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Default + job
+
+    fun startExample() {
+        println("Before coroutine")
+
+        launch {
+            println("Inside lifecycle scope coroutine")
+            delay(1000)
+            println("Coroutine execution complete")
+        }
+
+        println("After coroutine launch")
+
+        // Rest of the code
+
+        // Coroutine cancellation will be handled by the lifecycle
+    }
+
+    fun stopExample() {
+        job.cancel() // Cancel the coroutine job when the example stops
+    }
+}
+
+fun main() {
+
+    val example = ExampleClass()
+    example.startExample()
+
+    // Rest of the program
+
+    Thread.sleep(2000) // Wait for the coroutine to complete
+
+    example.stopExample()
+}
+
+output:-
+Before coroutine<br />
+After coroutine launch<br />
+Inside lifecycle scope coroutine<br />
+Coroutine execution complete<br />
+
+
+The stopExample function is responsible for cancelling the coroutine job when the example stops. This ensures proper cancellation and cleanup of the coroutines associated with the lifecycle scope.
 
 
 There are three types of dispatchers:-
