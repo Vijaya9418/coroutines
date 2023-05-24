@@ -335,12 +335,64 @@ Coroutine execution complete<br />
 
 The stopExample function is responsible for cancelling the coroutine job when the example stops. This ensures proper cancellation and cleanup of the coroutines associated with the lifecycle scope.
 
+//Dispatchers:-
 
+ Dispatchers are used to define the context or thread on which coroutines will be executed. They provide a way to control the thread or thread pool that executes the coroutines and specify the concurrency model.
+ 
 There are three types of dispatchers:-
 
-1. IO - Userd in network and local database Interaction.
-2. Main - Used in doing stuff in main thread, manily interaction with the UI.
-3. Default - It is used for heavy completion work.
+1. IO -
+ Userd in network and local database Interaction,reading from or writing to files, making network requests.<br />
+ It uses a larger pool of threads to handle I/O operations efficiently.<br /> 
+ It is suitable for any work that primarily waits for I/O to complete.<br />
+
+2. Main - 
+This dispatcher is specific to Android applications and is associated with the main/UI thread.<br /> 
+Used in doing stuff in main thread, manily interaction with the UI.<br />
+It ensures that coroutines running on this dispatcher execute on the main thread.<br />
+
+
+3. Default - 
+This dispatcher is used for CPU-intensive tasks or non-blocking operations that are not tied to any specific thread.<br />
+It is used for heavy completion work.<br />
+It is a shared pool of threads, and the number of threads depends on the available processors<br />
+
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    println("Before coroutine")
+
+    // Coroutine running on the Default dispatcher
+    GlobalScope.launch(Dispatchers.Default) {
+        println("Inside Default dispatcher coroutine")
+        // CPU-intensive work here
+    }
+
+    // Coroutine running on the IO dispatcher
+    GlobalScope.launch(Dispatchers.IO) {
+        println("Inside IO dispatcher coroutine")
+        // I/O-bound work here
+    }
+
+    // Coroutine running on the Main dispatcher
+    GlobalScope.launch(Dispatchers.Main) {
+        println("Inside Main dispatcher coroutine")
+        // UI-related work here
+    }
+
+    println("After coroutine launch")
+
+    // Rest of the program
+
+    Thread.sleep(2000) // Wait for the coroutines to complete
+
+    // Cleanup
+    // No need to cancel the GlobalScope as coroutines launched in the GlobalScope
+    // are not automatically cancelled when the surrounding code completes execution.
+}
+
 
 // are coroutines and threads equals?
 
