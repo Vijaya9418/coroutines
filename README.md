@@ -518,6 +518,14 @@ Coroutine 1 execution complete<br />
 Coroutine 2 execution complete<br />
 
 
+After launching **coroutine1** and **coroutine2**, **Coroutine 1** execution complete is printed after approximately 1 second because of the delay(1000) within **coroutine1**.
+After 1.5 seconds, we cancel **coroutine1** using coroutine1.cancel(). As a result, **Coroutine 1** execution complete is printed immediately.
+
+**coroutine2** continues its execution without interruption and completes after approximately 2 seconds due to the delay(2000) within **coroutine2**. Therefore, **Coroutine 2** execution complete is printed after **Coroutine 1** execution complete.
+
+The cancellation of **coroutine1** does not affect **coroutine2** because they are independent coroutines. The cancellation only terminates the execution of the specific coroutine that is canceled.
+
+
 Runblocking:-
 
 Runblocking is similar to the coroutine scope but with special properties. It runs a new coroutine and blocks the current thread interruptible until its completion, mostly it is used in test cases.
