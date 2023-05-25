@@ -447,17 +447,17 @@ fun main() {
 
 output:-
 
-Before coroutines
-After coroutines launch
-Coroutine 2: Start
-Coroutine 3: Start
-Coroutine 2: Executing some work
-Coroutine 3: Executing some work
-Coroutine 2: Work complete
-Coroutine 3: Work complete
-Coroutine 1: Start
-Coroutine 1: Delay complete
-After thread sleep
+Before coroutines<br />
+After coroutines launch<br />
+Coroutine 2: Start<br />
+Coroutine 3: Start<br />
+Coroutine 2: Executing some work<br />
+Coroutine 3: Executing some work<br />
+Coroutine 2: Work complete<br />
+Coroutine 3: Work complete<br />
+Coroutine 1: Start<br />
+Coroutine 1: Delay complete<br />
+After thread sleep<br />
 
 
 
@@ -479,22 +479,43 @@ Why we write(IO+job)
 Because if we want to cancel a particular job out of all the coroutines that is running inside IO, then we can simply do job.cancel, it will be independent of other coroutines.
 
 Ex:-
-val scope = CoroutineScope(IO).launch
-{
-//some code
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    val job = Job()
+    val coroutineContext = Dispatchers.IO + job
+
+    val scope = CoroutineScope(coroutineContext)
+
+    val coroutine1 = scope.launch {
+        // Coroutine 1 code here
+        delay(1000)
+        println("Coroutine 1 execution complete")
+    }
+
+    val coroutine2 = scope.launch {
+        // Coroutine 2 code here
+        delay(2000)
+        println("Coroutine 2 execution complete")
+    }
+
+    // Cancel Coroutine 1 after 1500 milliseconds (1.5 seconds)
+    Thread.sleep(1500)
+    coroutine1.cancel()
+
+    // Wait for Coroutine 2 to complete
+    coroutine2.join()
+
+    // Clean up the job
+    job.cancel()
 }
-scope.cancel
 
-This will cancel all the coroutines running inside IO
+output:-
 
-
-
-val scope = CoroutineScope.launch(IO+Job).launch
-{
-//some code
-}
-Job.cancel
-This will only cancel that particular job.
+Coroutine 1 execution complete<br />
+Coroutine 2 execution complete<br />
 
 
 Runblocking:-
