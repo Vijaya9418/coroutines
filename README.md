@@ -501,8 +501,8 @@ fun main() {
         println("Coroutine 2 execution complete")
     }
 
-    // Cancel Coroutine 1 after 1500 milliseconds (1.5 seconds)
-    Thread.sleep(1500)
+    // Cancel Coroutine 1 after 3000 milliseconds (3 seconds)
+    Thread.sleep(3000)
     coroutine1.cancel()
 
     // Wait for Coroutine 2 to complete
@@ -518,12 +518,14 @@ Coroutine 1 execution complete<br />
 Coroutine 2 execution complete<br />
 
 
-After launching **coroutine1** and **coroutine2**, **Coroutine 1** execution complete is printed after approximately 1 second because of the delay(1000) within **coroutine1**.
-After 1.5 seconds, we cancel **coroutine1** using coroutine1.cancel(). As a result, **Coroutine 1** execution complete is printed immediately.
+After launching coroutine1 and coroutine2, Coroutine 1 execution complete is printed after approximately 1 second because of the delay(1000) within coroutine1.
 
-**coroutine2** continues its execution without interruption and completes after approximately 2 seconds due to the delay(2000) within **coroutine2**. Therefore, **Coroutine 2** execution complete is printed after **Coroutine 1** execution complete.
+After 3 seconds, we cancel coroutine1 using coroutine1.cancel(). Since coroutine1 has already completed by this time, canceling it does not have any effect.
 
-The cancellation of **coroutine1** does not affect **coroutine2** because they are independent coroutines. The cancellation only terminates the execution of the specific coroutine that is canceled.
+We use coroutine2.join() to wait for coroutine2 to complete its execution. Since coroutine2 is not explicitly canceled, it continues its execution and attempts to delay for 2 seconds using delay(2000).
+
+After completing its delay, Coroutine 2 execution complete is printed as expected.
+Finally, the program finishes execution, and there are no further cancelations or delays.
 
 
 Runblocking:-
