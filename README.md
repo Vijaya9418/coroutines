@@ -461,21 +461,8 @@ After thread sleep<br />
 
 
 
-//withTimeOutOrNull:-
+**Why we write(IO+job)**
 
-It will wait until the job time out which we have provided and if within this time out the jobs get completed otherwise it will return null.
-
-//completable job:-
-
-It has more feature added to it , so we should always use completable job instead a simple job.
-
-//job.complete:-
-It will complete the job and mark as complete.
-
-//job.complete Exceptionally:-
-It will complete the job exceptionally with a given exception.
-
-Why we write(IO+job)
 Because if we want to cancel a particular job out of all the coroutines that is running inside IO, then we can simply do job.cancel, it will be independent of other coroutines.
 
 Ex:-
@@ -528,6 +515,57 @@ After completing its delay, Coroutine 2 execution complete is printed as expecte
 Finally, the program finishes execution, and there are no further cancelations or delays.
 
 
+**an example in which we have two jobs running and want to cancel only one**
+
+import kotlinx.coroutines.*
+
+fun main() {
+
+    val job1 = Job()
+    val job2 = Job()
+    
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    val coroutine1 = scope.launch(job1) {
+        repeat(5) {
+            println("Coroutine 1: Count $it")
+            delay(500)
+        }
+    }
+
+    val coroutine2 = scope.launch(job2) {
+        repeat(5) {
+            println("Coroutine 2: Count $it")
+            delay(500)
+        }
+    }
+
+    // Delay for some time
+    Thread.sleep(2000)
+
+    // Cancel job1 (coroutine1)
+    job1.cancel()
+
+    // Wait for coroutine2 to complete
+    runBlocking {
+        coroutine2.join()
+    }
+
+    // Clean up the scope
+    scope.cancel()
+}
+
+output:-
+
+Coroutine 1: Count 0<br />
+Coroutine 2: Count 0<br />
+Coroutine 1: Count 1<br />
+Coroutine 2: Count 1<br />
+Coroutine 2: Count 2<br />
+Coroutine 2: Count 3<br />
+Coroutine 2: Count 4<br />
+
+
 Runblocking:-
 
 Runblocking is similar to the coroutine scope but with special properties. It runs a new coroutine and blocks the current thread interruptible until its completion, mostly it is used in test cases.
@@ -537,6 +575,22 @@ It is a function to define the coroutine , indicating that the function can be p
 
 Await:-
 It is the keyword used within the coroutine to pause the execution go a function until a specific asynchronous operations completed.
+
+
+
+//withTimeOutOrNull:-
+
+It will wait until the job time out which we have provided and if within this time out the jobs get completed otherwise it will return null.
+
+//completable job:-
+
+It has more feature added to it , so we should always use completable job instead a simple job.
+
+//job.complete:-
+It will complete the job and mark as complete.
+
+//job.complete Exceptionally:-
+It will complete the job exceptionally with a given exception.
 
 
 
