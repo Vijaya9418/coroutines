@@ -176,6 +176,7 @@ Inside coroutine
 
 Coroutine execution complete
 
+This delay ensures that the coroutine has enough time to execute and complete its tasks before the program terminates and cancels the scope.
 
 //withcontext:-
 
