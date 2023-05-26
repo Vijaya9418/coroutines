@@ -583,7 +583,51 @@ It is the keyword used within the coroutine to pause the execution go a function
 
 await is a suspending function that can only be called from a coroutine. It is used to wait for the completion of a Deferred and retrieve its result. When you call await on a Deferred object, it suspends the coroutine until the result is available, and then resumes the coroutine with the result.
 
+example:-
 
+import kotlinx.coroutines.*
+
+fun main() {
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    val deferredResult1 = scope.async {
+        // Simulating a long-running computation
+        delay(1000)
+        "Result 1"
+    }
+
+    val deferredResult2 = scope.async {
+        // Simulating another long-running computation
+        delay(2000)
+        "Result 2"
+    }
+
+    // Do some other work while waiting for the results
+
+    println("Performing some other work...")
+
+    // Asynchronously wait for the results using await
+    val result1 = deferredResult1.await()
+    val result2 = deferredResult2.await()
+
+    // Print the results
+    println("Result 1: $result1")
+    println("Result 2: $result2")
+
+    // Cleanup the scope
+    scope.cancel()
+}
+
+output:-
+
+Performing some other work...<br />
+Result 1: Result 1<br />
+Result 2: Result 2<br />
+
+The program starts by printing "Performing some other work..." to simulate doing other work while waiting for the results.<br />
+Asynchronously, two coroutines are launched using async.<br />
+When we reach the await calls for deferredResult1 and deferredResult2, the program suspends and waits for the corresponding coroutines to complete and return their results.
 
 
 //withTimeOutOrNull:-
