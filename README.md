@@ -573,8 +573,16 @@ Runblocking is similar to the coroutine scope but with special properties. It ru
 Async and await:-
 It is a function to define the coroutine , indicating that the function can be paused and resumed.
 
+async is a coroutine builder that starts a new coroutine and returns a **Deferred object**.<br />
+A **Deferred** is a light-weight non-blocking future that represents a promise of a result. It allows you to perform a computation concurrently and obtain the result at a later time.
+
+
+
 Await:-
 It is the keyword used within the coroutine to pause the execution go a function until a specific asynchronous operations completed.
+
+await is a suspending function that can only be called from a coroutine. It is used to wait for the completion of a Deferred and retrieve its result. When you call await on a Deferred object, it suspends the coroutine until the result is available, and then resumes the coroutine with the result.
+
 
 
 
