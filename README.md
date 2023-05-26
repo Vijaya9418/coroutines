@@ -11,10 +11,15 @@ Coroutines help to manage long-running tasks that might otherwise block the main
 
 #advantages:-
 
-1. Coroutines decrease the overall execution time. This is so because they make the entire code non-blocking by voluntarily giving CPU to other coroutines.
-2. It comes with a mutual exclusion.For instance, if process A has two coroutines, coroutine_1, and coroutine_2, then coroutine_1 will not interfere with coroutine_2 in terms of its memory, CPU, or any other resource.
+1. Coroutines decrease the overall execution time:-
+ This is so because they make the entire code non-blocking by voluntarily giving CPU to other coroutines.
+ 
+2. It comes with a mutual exclusion.:-
+For instance, if process A has two coroutines, coroutine_1, and coroutine_2, then coroutine_1 will not interfere with coroutine_2 in terms of its memory, CPU, or any other resource.<br/>
 If corotuine_1 has to wait for a resource or some other module’s result, then it will pause itself to give control to coroutine_2 instead of blocking it.
-3. Fewer Memory leaks. A coroutine causes fewer memory leaks due to the use of structured concurrency.Structured concurrency means that any independent execution unit (say thread) is encapsulated with explicit entry and exit points.
+
+3. Fewer Memory leaks.:-
+ A coroutine causes fewer memory leaks due to the use of structured concurrency.Structured concurrency means that any independent execution unit (say thread) is encapsulated with explicit entry and exit points.
 
 #disadvantage:-
 
