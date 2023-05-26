@@ -15,7 +15,7 @@ Coroutines help to manage long-running tasks that might otherwise block the main
  This is so because they make the entire code non-blocking by voluntarily giving CPU to other coroutines.
  
 2. It comes with a mutual exclusion.:-
-For instance, if process A has two coroutines, coroutine_1, and coroutine_2, then coroutine_1 will not interfere with coroutine_2 in terms of its memory, CPU, or any other resource.<br/>
+For instance, if process A has two coroutines, coroutine_1, and coroutine_2, then coroutine_1 will not interfere with coroutine_2 in terms of its memory, CPU, or any other resource.<br />
 If corotuine_1 has to wait for a resource or some other module’s result, then it will pause itself to give control to coroutine_2 instead of blocking it.
 
 3. Fewer Memory leaks.:-
@@ -24,6 +24,45 @@ If corotuine_1 has to wait for a resource or some other module’s result, then 
 #disadvantage:-
 
 1. The disadvantage is that you'll need to copy out/in every time a coroutine yields.
+
+Example:-
+
+import kotlinx.coroutines.*
+
+suspend fun calculateSum(a: Int, b: Int): Int {
+
+    delay(1000) // Simulating a long-running computation
+    return a + b
+}
+
+fun main() {
+
+    var result = 0
+
+    val scope = CoroutineScope(Dispatchers.Default)
+
+    scope.launch {
+        val sum = calculateSum(3, 4)
+        result = sum
+    }
+
+    // Simulating some other work being done while waiting for the result
+    repeat(5) {
+        println("Performing other work...")
+        Thread.sleep(500)
+    }
+
+    println("Result: $result")
+}
+
+output:-
+
+Performing other work...<br />
+Performing other work...<br />
+Performing other work...<br />
+Performing other work...<br />
+Performing other work...<br />
+Result: 0<br />
 
 
 //suspend:-
