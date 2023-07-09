@@ -70,6 +70,7 @@ Result: 0<br />
 //suspend:-
 
 It is a function that can be paused or resumed at a later time, coroutines can be called only from a suspend function. We mark them suspend so that it can be called asynchronously and therefore runs in background thread.
+
 It is designed to work with coroutine builders like launch or async and allows for asynchronous programming in a sequential and more readable manner.
 
 
@@ -170,6 +171,7 @@ fun main() {
 }
 
 output:-
+
 Before coroutine
 
 After coroutine launch
